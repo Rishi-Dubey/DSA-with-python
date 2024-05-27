@@ -20,4 +20,4 @@ class Solutions:
         print(max_1, max_2)
         print(f"Max Product : array[{max_1}] * array[{max_2}] = {array[max_2]*array[max_1]} ")
     
-Solutions.max_product([1, 2, 3, 10, 4, 5, 9])
+Solutions.max_product([10,2,5,2])
