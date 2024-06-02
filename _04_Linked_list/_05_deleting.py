@@ -90,7 +90,10 @@ class SLinkedList:
                     
                 targeted_node = temp_node.next # node at the given location which to delete
                 temp_node.next = targeted_node.next
-                
+    
+    def clear_all(self):
+        self.head = None
+        self.tail = None
                 
 Single_Linked_list = SLinkedList()
 
@@ -113,4 +116,7 @@ add()
 # Single_Linked_list.delete(0)
 # Single_Linked_list.delete(1)
 Single_Linked_list.delete(3)
+Single_Linked_list.show()
+
+Single_Linked_list.clear_all()
 Single_Linked_list.show()
