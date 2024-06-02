@@ -1,5 +1,5 @@
-"""Here I will Create Single Linked list
-1) Head -> connect to node of first and first is connect to Tail"""
+"""Here I will Create Circular Single Linked list
+1) Head -> connect to node of first and tail also connect to first node"""
 
 class CSLinkedList:
     def __init__(self) -> None:
