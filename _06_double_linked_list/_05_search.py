@@ -1,4 +1,4 @@
-"""Here I will create search method"""
+"""Here I will create search method in Double linked list"""
 
 
 class Node:
