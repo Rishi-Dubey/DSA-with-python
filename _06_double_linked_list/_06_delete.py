@@ -134,7 +134,10 @@ class DoubleLinkedList:
                 temp_node.next = next_node      # set the temp to next node of target node
                 next_node.previous = temp_node  # next_node's previous now becomes temp_node
                 return value
-                
+            
+    def clearAll(self):
+        self.head = None
+        self.tail = None  
                     
 myDLL = DoubleLinkedList()
 
@@ -147,4 +150,7 @@ myDLL.delete(0)
 myDLL.delete()
 myDLL.delete(432)
 
+myDLL.show()
+
+myDLL.clearAll()
 myDLL.show()
