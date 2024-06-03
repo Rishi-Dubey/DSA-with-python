@@ -131,6 +131,10 @@ class CircularSLS:
                 temp_node.next = targeted_node.next  # target's next  become temp_node next
                 return value   # return the value we just deleted
                 
+    
+    def ClearAll(self):
+        self.head = None
+        self.tail = None
                 
 csll = CircularSLS()
 
@@ -157,10 +161,12 @@ csll.show()
 csll.insert(0,0)
 csll.insert(1,1)
 csll.insert(2,1)
-csll.delete(0)
-csll.delete(1)
 
 
 # csll.delete(1)
 # csll.delete(2)
+csll.show()
+
+csll.ClearAll()
+
 csll.show()
