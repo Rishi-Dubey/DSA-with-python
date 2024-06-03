@@ -11,7 +11,7 @@ class Node:
         self.previous = None
 
 
-class CircularDoubleLinkedList:
+class CircularDoublyLinkedList:
     def __init__(self) -> None:
         self.head = None
         self.tail = None
@@ -33,7 +33,7 @@ class CircularDoubleLinkedList:
         print("Circular Double Linked List created Successfully")
 
 
-CDLL = CircularDoubleLinkedList()
+CDLL = CircularDoublyLinkedList()
 
 CDLL.create(100)
 print([node.value for node in CDLL])
