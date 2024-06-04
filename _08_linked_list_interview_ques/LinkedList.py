@@ -39,6 +39,8 @@ class LinkedList:
     # call when print(instance of class)
     def __str__(self) -> str:
         # here self is class means we are call the iter method
+        if self.head is None:
+            return "Empty Linked List"
         Llist = [str(i.value) for i in self]
         return " -> ".join(Llist)
 
