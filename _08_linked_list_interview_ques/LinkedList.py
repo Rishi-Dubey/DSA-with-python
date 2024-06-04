@@ -131,7 +131,7 @@ class LinkedList:
 
                 # 2nd condition means user enters the index more than last node's index
                 # so it out of range
-                if index != location - 1 and temp_node.next is None:     # check if it has valid index
+                if index != location - 1 or temp_node.next is None:     # check if it has valid index
                     print("Index Out of range")
                     return None
 
