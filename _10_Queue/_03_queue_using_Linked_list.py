@@ -59,20 +59,20 @@ class Queue:
         else:
             return self.head.value
 
+if __name__ == "__main__":
+    myqueue = Queue()
 
-myqueue = Queue()
+    print(myqueue.isEmpty())
+    print(myqueue.dequeue())
+    print(myqueue)
+    myqueue.dequeue()
 
-print(myqueue.isEmpty())
-print(myqueue.dequeue())
-print(myqueue)
-myqueue.dequeue()
+    print("=============================")
 
-print("=============================")
+    myqueue.enqueue(1)
+    myqueue.enqueue(2)
+    myqueue.enqueue(3)
 
-myqueue.enqueue(1)
-myqueue.enqueue(2)
-myqueue.enqueue(3)
-
-print(myqueue)
-print(myqueue.dequeue())
-print(myqueue)
+    print(myqueue)
+    print(myqueue.dequeue())
+    print(myqueue)
