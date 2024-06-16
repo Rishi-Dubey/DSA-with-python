@@ -1,6 +1,4 @@
-"""Here I will create insert method for the Binary Tree
-It will use Level order traversal i.e it uses Queue which is faster than stack"""
-
+# Import the Queue class (assumed to be correctly implemented)
 import sys
 import os
 
@@ -12,13 +10,13 @@ sys.path.append(os.path.abspath(os.path.join(
 from _03_queue_using_Linked_list import Queue
 
 class BinaryTree:
-    def __init__(self, data) -> None:
+    def __init__(self, data = None) -> None:
         self.data = data
         self.leftChild = None
         self.rightChild = None
 
     def addChild(self, node):
-        if not self.data:
+        if not self.data:  # Assuming an empty node means no data
             self.data = node.data
         else:
             custom_queue = Queue()
@@ -26,15 +24,12 @@ class BinaryTree:
             while not custom_queue.isEmpty():
                 root: BinaryTree = custom_queue.dequeue()
 
-                # Now we will check if left child exits or not if exits add it to queue
-                # and if not exits we will add node to leftchild
-                if root.leftChild is not None:  # if it already exits no need to add value here
+                if root.leftChild is not None:
                     custom_queue.enqueue(root.leftChild)
-
-                else:   # if left child not exits we will add node to left child of main root
+                else:
                     root.leftChild = node
                     return "Added Successfully"
-                # now we check the right child
+
                 if root.rightChild is not None:
                     custom_queue.enqueue(root.rightChild)
                 else:
@@ -45,97 +40,164 @@ class BinaryTree:
         if not self.data:
             return "Empty Tree"
         else:
-            tree: str = ""
-            custom_queue: Queue = Queue()
+            tree = ""
+            custom_queue = Queue()
             custom_queue.enqueue(self)
-            
-            while custom_queue.isEmpty() is False:
-                root = custom_queue.dequeue()
-                tree += root.data + "\n"
-                
-                if root.leftChild is not None:
-                        custom_queue.enqueue(root.leftChild)
 
+            while not custom_queue.isEmpty():
+                root = custom_queue.dequeue()
+                tree += str(root.data) + "\n"
+
+                if root.leftChild is not None:
+                    custom_queue.enqueue(root.leftChild)
                 if root.rightChild is not None:
-                        custom_queue.enqueue(root.rightChild)
+                    custom_queue.enqueue(root.rightChild)
 
             return tree
 
-newBT = BinaryTree("Drinks")
+# Functions for deleting the deepest node
 
-leftChild = BinaryTree("Hot")
-Coffee = BinaryTree("Coffee")
-Chai = BinaryTree("Chai")
-
-rightChild = BinaryTree("Cold")
-fruti = BinaryTree("Fruti")
-Coca_Cola = BinaryTree("Coca_Cola")
-
-# adding trees accordingly
-newBT.addChild(leftChild)
-newBT.addChild(rightChild)
-
-leftChild.addChild(Coffee)
-leftChild.addChild(Chai)
-
-rightChild.addChild(fruti)
-rightChild.addChild(Coca_Cola)
-
-print(newBT)
-
-
-
-# Here In separate from the class I will create Delete method
 def getDeepestNode(root_node):
     if not root_node:
         return None
 
-    else:
-        custom_queue = Queue()
-        custom_queue.enqueue(root_node)
-        while not custom_queue.isEmpty():
-            root: BinaryTree = custom_queue.dequeue()
-            if root.leftChild is not None:
-                custom_queue.enqueue(root.leftChild)
-            if root.rightChild is not None:
-                custom_queue.enqueue(root.rightChild)
+    custom_queue = Queue()
+    custom_queue.enqueue(root_node)
+    last_node = None
+    while not custom_queue.isEmpty():
+        last_node = custom_queue.dequeue()
+        if last_node.leftChild:
+            custom_queue.enqueue(last_node.leftChild)
+        if last_node.rightChild:
+            custom_queue.enqueue(last_node.rightChild)
 
-        return root
-    
+    return last_node
 
 def deleteDeepestNode(root_node, deepest_node):
     if not root_node:
         return
+
+    custom_queue = Queue()
+    custom_queue.enqueue(root_node)
+    while not custom_queue.isEmpty():
+        node = custom_queue.dequeue()
+
+        if node is deepest_node:
+            node = None
+            return
+
+        if node.leftChild:
+            if node.leftChild is deepest_node:
+                node.leftChild = None
+                return
+            else:
+                custom_queue.enqueue(node.leftChild)
+
+        if node.rightChild:
+            if node.rightChild is deepest_node:
+                node.rightChild = None
+                return
+            else:
+                custom_queue.enqueue(node.rightChild)
+
+# Testing the implementation
+def test():
+        
+    newBT = BinaryTree("Drinks")
+
+    leftChild = BinaryTree("Hot")
+    Coffee = BinaryTree("Coffee")
+    Chai = BinaryTree("Chai")
+
+    rightChild = BinaryTree("Cold")
+    fruti = BinaryTree("Fruti")
+    Coca_Cola = BinaryTree("Coca_Cola")
+
+    # adding trees accordingly
+    newBT.addChild(leftChild)
+    newBT.addChild(rightChild)
+
+    leftChild.addChild(Coffee)
+    leftChild.addChild(Chai)
+
+    rightChild.addChild(fruti)
+    rightChild.addChild(Coca_Cola)
+
+    print(newBT)
+
+# Delete method for the the given node
+
+def delete(root_node, node):
+    """Return Successfully as string or None if failed
+    First it found the node we want to delete then it find the last
+    node in tree then it replaces the last node in tree with the out given node value
+    and then delete the last node i.e set it to None"""
+    
+    if not root_node:
+        return None
+    
     else:
+        # First we need to find the node location which we want to delete 
         custom_queue = Queue()
         custom_queue.enqueue(root_node)
-        while not custom_queue.isEmpty():
-            root : BinaryTree = custom_queue.dequeue()
-            
-            # checking if the root is deepest node or not
-            if root is deepest_node:
-                root = None
-                return
-            
-            #else we will check it's left and right child
+        while not (custom_queue.isEmpty()):
+            root = custom_queue.dequeue()
+            if root.data == node:   # found the node we want to delete
+                # lets found the last node of Binary Tree
+                last_node = getDeepestNode(root_node)
+                
+                # setting the last to our target node which we want to delete
+                root.data = last_node.data  # we did't change the child of target node here just the label
+                
+                # Now we will remove the last last node since it already been assign
+                deleteDeepestNode(root_node, last_node)
+                return "Delete Successfully"
+
             if root.leftChild:
-                if root.leftChild is deepest_node:
-                    root.leftChild = None
-                    return
-                else:
-                    custom_queue.enqueue(root.leftChild)
+                custom_queue.enqueue(root.leftChild)
             
             if root.rightChild:
-                if root.rightChild is deepest_node:
-                    root.rightChild = None
-                    return
-                else:
-                    custom_queue.enqueue(root.rightChild)
-            
+                custom_queue.enqueue(root.rightChild)
+        
+        return "Failed to delete"
+    
+    
+def deleteTree(rootnode) -> str:
+    rootnode.data = None
+    rootnode.leftChild = None
+    rootnode.rightChild = None
+    return "Deleted Successfully"
 
-dn = getDeepestNode(newBT)
-print(dn)
 
-deleteDeepestNode(newBT, deepest_node = dn)
+def test():
+        
+    newBT = BinaryTree("Drinks")
 
-print(newBT)
+    leftChild = BinaryTree("Hot")
+    Coffee = BinaryTree("Coffee")
+    Chai = BinaryTree("Chai")
+
+    rightChild = BinaryTree("Cold")
+    fruti = BinaryTree("Fruti")
+    Coca_Cola = BinaryTree("Coca_Cola")
+
+    # adding trees accordingly
+    newBT.addChild(leftChild)
+    newBT.addChild(rightChild)
+
+    leftChild.addChild(Coffee)
+    leftChild.addChild(Chai)
+
+    rightChild.addChild(fruti)
+    rightChild.addChild(Coca_Cola)
+
+    print(newBT)
+    print("Here we will delete\n")
+    
+    print(delete(newBT, "Hot"))
+
+    print(newBT)
+    
+    print(deleteTree(newBT))
+    print(newBT)
+test()
