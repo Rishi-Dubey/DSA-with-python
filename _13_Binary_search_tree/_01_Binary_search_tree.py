@@ -40,12 +40,13 @@ class BinarySearchTree:
         
     def preOrderTraversal(self):
         """PreOrder traversal (root, left, right)."""
+        if self is None:
+            return None
         print(self.data, end=" ")
-        if self.leftChild:
-            self.leftChild.preOrderTraversal()
+        if self.leftChild:  
+            self.leftChild.preOrderTraversal()  # now self -> self.leftChild
         if self.rightChild:
             self.rightChild.preOrderTraversal()
-
 
 
 
