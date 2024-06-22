@@ -94,25 +94,29 @@ def minNodeValue(root_node : BinarySearchTree):
 
 
 def deleteNode(root_node : BinarySearchTree, node_value : int):
-
-    if root_node is None:
+    if root_node is None:   # base case when value don't match or tree is empty
         return root_node
-    if node_value < root_node.data:
+    if node_value < root_node.data: # value don't match but may exits deeper in tree's left
         root_node.leftChild = deleteNode(root_node.leftChild, node_value)
-    elif node_value > root_node.data:
+    elif node_value > root_node.data: # value don't match but may exits deeper in tree's right
         root_node.rightChild = deleteNode(root_node.rightChild, node_value)
-    else:
-        if root_node.leftChild is None:
+    else:   # when value match above i.e above condition's are false
+        if root_node.leftChild is None:   # if root_node has one child or both are None
             temp = root_node.rightChild
             root_node = None
             return temp
         
-        if root_node.rightChild is None:
+        if root_node.rightChild is None:  # if root_node has one child or both are None
             temp = root_node.leftChild
             root_node = None
             return temp
 
-        temp = minNodeValue(root_node.rightChild)
-        root_node.data = temp.data
-        root_node.rightChild = deleteNode(root_node.rightChild, temp.data)
+        # when root_node has two children
+        temp = minNodeValue(root_node.rightChild)   # first we find the replacement for the target node
+        root_node.data = temp.data  # replace the target node with new value
+        root_node.rightChild = deleteNode(root_node.rightChild, temp.data)  # deleting the replaced value 
+    
+    # This return statement return the current subtree to its parent after updating 
+    # it very important when value match and tree get deleted and recursion go back ward again
+    # it return to it parent until the main node the subtree at each level
     return root_node
